@@ -73,6 +73,7 @@ A continuacion se crearan los siguientes archivos y carpetas
      ```rust
       > [Dependencies]
       openzeppelin_access = "0.19.0"
+      starknet = "2.9.1" // Esto ya estaba configurado, pero debemos revisar que este de acuerdo a la version del archivo '.devcontainer.json' 
       ```
 
   - Forma 2:
