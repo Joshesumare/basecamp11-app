@@ -1,9 +1,9 @@
 #[starknet::interface]
 pub trait ICounter<TContractState> {
-    fn consultar(self: @TContractState) -> u32;
-    fn sumar_uno(ref self: TContractState);
-    fn restar(ref self: TContractState);
-    fn borrar(ref self: TContractState);
+    fn Consultar(self: @TContractState) -> u32;
+    fn Sumar_uno(ref self: TContractState);
+    fn Restar_uno(ref self: TContractState);
+    fn Restablecer(ref self: TContractState);
 }
 
 
@@ -56,26 +56,26 @@ mod Counter {
 
     #[abi(embed_v0)]
     impl CounterImpl of ICounter<ContractState> {
-        fn consultar(self: @ContractState) -> u32 {
+        fn Consultar(self: @ContractState) -> u32 {
             self.counter.read()
         }
 
-        fn sumar_uno(ref self: ContractState) {
+        fn Sumar_uno(ref self: ContractState) {
             let old_counter = self.counter.read();
             let new_counter = old_counter + 1;
             self.counter.write(new_counter);
             self.emit(CounterIncreased { counter: new_counter });
         }
 
-        fn restar(ref self: ContractState) {
+        fn Restar_uno(ref self: ContractState) {
             let old_counter = self.counter.read();
-            assert(old_counter > 0, 'ya valgo 0 :\'(');
+            assert(old_counter > 0, 'ya valgo 0');
                 let new_counter = old_counter - 1;
                 self.counter.write(new_counter);
                 self.emit(CounterDecreased { counter: new_counter });
         }
 
-        fn borrar(ref self: ContractState) {
+        fn Restablecer(ref self: ContractState) {
             self.ownable.assert_only_owner();
             self.counter.write(0);
         }
