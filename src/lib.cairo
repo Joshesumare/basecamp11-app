@@ -76,7 +76,7 @@ mod Counter {
         }
 
         fn Restablecer(ref self: ContractState) {
-            self.ownable.assert_only_owner();
+            self.ownable.assert_only_owner(); // solo el Owner del contrato puede llamar esta funcion 
             self.counter.write(0);
         }
     }
