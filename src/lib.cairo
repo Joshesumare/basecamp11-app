@@ -8,7 +8,7 @@ pub trait ICounter<TContractState> {
 
 
 #[starknet::contract]
-pub mod Counter{
+mod Counter{
     use super::ICounter;
     use openzeppelin_access::ownable::OwnableComponent;
     use starknet::ContractAddress;
@@ -34,7 +34,7 @@ pub mod Counter{
         CounterIncreased: CounterIncreased,
         CounterDecreased: CounterDecreased,
         #[flat]
-        OwnableEvent: OwnableComponent::Event,
+        OwnableEvent: OwnableComponent::Event
     }
 
     #[derive(Drop, starknet::Event)]
@@ -46,10 +46,7 @@ pub mod Counter{
     struct CounterDecreased {
         counter: u32,
     }
-    pub mod Errors {
-        pub const NEGATIVE_COUNTER:     felt252 = 'countercan\'t be negative';
-    }
-
+    
     #[constructor]
     fn constructor(ref self: ContractState, init_value: u32, owner: ContractAddress) {
         self.counter.write(init_value);
@@ -72,7 +69,7 @@ pub mod Counter{
 
         fn restar(ref self: ContractState) {
             let old_counter = self.counter.read();
-            assert(old_counter > 1, Errors::NEGATIVE_COUNTER);
+            //*assert(old_counter > 1, Errors::NEGATIVE_COUNTER);
             let new_counter = old_counter - 1;
             self.counter.write(new_counter);
             self.emit(CounterDecreased { counter: new_counter });
