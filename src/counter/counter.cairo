@@ -1,3 +1,0 @@
-mod ExampleContract {
-    mod ExampleContract;
-}
