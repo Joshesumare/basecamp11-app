@@ -69,10 +69,10 @@ mod Counter {
 
         fn Restar_uno(ref self: ContractState) {
             let old_counter = self.counter.read();
-            assert(old_counter > 0, 'ya valgo 0');
-                let new_counter = old_counter - 1;
-                self.counter.write(new_counter);
-                self.emit(CounterDecreased { counter: new_counter });
+            assert(old_counter > 0, 'ya valgo 0'); // asert emite un aviso si se cmple X condicion
+            let new_counter = old_counter - 1;
+            self.counter.write(new_counter);
+            self.emit(CounterDecreased { counter: new_counter });
         }
 
         fn Restablecer(ref self: ContractState) {
