@@ -187,6 +187,10 @@ Posteriormente debemos aplicar en la ventana de comandos [scarb Build] presionar
 
 ```rust
 starkli deploy 0x0748d189a79b38711b357472c6ebffadda3e294f99e79e5b0eb2b229988b1525 "hash de compilacion" 4 "valor inicial del counter" 0x074e65B87938f1f497947B89f293E142b79ECb8b7b93202C1040bECE91D621F3 "direccion del owner"--account account.json --keystore keystore.json "Comandos con informacion del implementador"
+
+// es decir se llama asi´:
+starkli deploy XXXXXX 4 0x074e65B87938f1f497947B89f293E142b79ECb8b7b93202C1040bECE91D621F3 --account account.json --keystore keystore.json
+
 ```
 **Nota** Lo que esta "entrecomillas" es texto descriptivo
 
