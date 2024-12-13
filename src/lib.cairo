@@ -1,14 +1,14 @@
 #[starknet::interface]
 pub trait ICounter<TContractState> {
-    fn atrapar(self: @TContractState) -> u32;
-    fn sumar(ref self: TContractState);
+    fn consultar(self: @TContractState) -> u32;
+    fn sumar_uno(ref self: TContractState);
     fn restar(ref self: TContractState);
     fn borrar(ref self: TContractState);
 }
 
 
 #[starknet::contract]
-mod Counter{
+mod Counter {
     use super::ICounter;
     use openzeppelin_access::ownable::OwnableComponent;
     use starknet::ContractAddress;
@@ -22,10 +22,10 @@ mod Counter{
     impl InternalImpl = OwnableComponent::InternalImpl<ContractState>;
 
     #[storage]
-    struct Storage{
+    struct Storage {
         counter: u32,
         #[substorage(v0)]
-        ownable: OwnableComponent::Storage
+        ownable: OwnableComponent::Storage,
     }
 
     #[event]
@@ -34,33 +34,33 @@ mod Counter{
         CounterIncreased: CounterIncreased,
         CounterDecreased: CounterDecreased,
         #[flat]
-        OwnableEvent: OwnableComponent::Event
+        OwnableEvent: OwnableComponent::Event,
     }
 
     #[derive(Drop, starknet::Event)]
     struct CounterIncreased {
-        counter: u32
+        counter: u32,
     }
 
     #[derive(Drop, starknet::Event)]
     struct CounterDecreased {
         counter: u32,
     }
-    
+
     #[constructor]
     fn constructor(ref self: ContractState, init_value: u32, owner: ContractAddress) {
         self.counter.write(init_value);
         self.ownable.initializer(owner);
     }
 
-    
+
     #[abi(embed_v0)]
     impl CounterImpl of ICounter<ContractState> {
-        fn atrapar(self: @ContractState) -> u32 {
+        fn consultar(self: @ContractState) -> u32 {
             self.counter.read()
         }
 
-        fn sumar(ref self: ContractState) {
+        fn sumar_uno(ref self: ContractState) {
             let old_counter = self.counter.read();
             let new_counter = old_counter + 1;
             self.counter.write(new_counter);
@@ -69,10 +69,10 @@ mod Counter{
 
         fn restar(ref self: ContractState) {
             let old_counter = self.counter.read();
-            //*assert(old_counter > 1, Errors::NEGATIVE_COUNTER);
-            let new_counter = old_counter - 1;
-            self.counter.write(new_counter);
-            self.emit(CounterDecreased { counter: new_counter });
+            assert(old_counter > 0, 'ya valgo 0 :\'(');
+                let new_counter = old_counter - 1;
+                self.counter.write(new_counter);
+                self.emit(CounterDecreased { counter: new_counter });
         }
 
         fn borrar(ref self: ContractState) {
