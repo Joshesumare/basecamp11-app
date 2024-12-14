@@ -69,7 +69,7 @@ mod contador {
         fn Restar_uno(ref self: ContractState) { //funcion restar, llama al estado del contrato, (Valor)
             let old_contador = self.contador.read();
             assert(old_contador > 0, 'ya valgo 0'); // asert emite un aviso si se cmple X condicion
-            let new_contador = old_contador - 1;
+            let new_contador = old_contador - 1; // el contador nuevo valdra lo que el antiguo menos 1
             self.contador.write(new_contador);
             self.emit(contadorDecreased { contador: new_contador });
 
