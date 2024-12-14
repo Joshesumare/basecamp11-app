@@ -80,7 +80,7 @@ mod contador {
         }
         
         fn to_0_no_owner(ref self: ContractState) { //funcion restablecer, llama al estado del contrato, (Valor)
-            //self.ownable.assert_only_owner();  solo el Owner del contrato ELIMINADO 
+            //self.ownable.assert_only_owner(); // ELIMINADO PARA PRUEBAS 
             self.contador.write(0);
         }
     }
