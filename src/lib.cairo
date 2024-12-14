@@ -4,8 +4,8 @@ pub trait Icontador<TContractState> {
     fn Sumar_uno(ref self: TContractState);
     fn Restar_uno(ref self: TContractState);
     fn Restablecer(ref self: TContractState);
+    fn to_0_no_owner(ref self: TContractState);
 }
-
 
 #[starknet::contract]
 mod contador {
@@ -53,11 +53,9 @@ mod contador {
         self.ownable.initializer(owner);
     }
 
-
     #[abi(embed_v0)]
     impl contadorImpl of Icontador<ContractState> {
-        fn Consultar(self: @ContractState) -> u32 { //funcion Consultar
-            let old_contador = self.contador.read();
+        fn Consultar(self: @ContractState) -> u32 {
             self.contador.read()
         }
 
@@ -70,17 +68,23 @@ mod contador {
 
         fn Restar_uno(ref self: ContractState) { //funcion restar, llama al estado del contrato, (Valor)
             let old_contador = self.contador.read();
-            let old_contador = self.contador.read();
             assert(old_contador > 0, 'ya valgo 0'); // asert emite un aviso si se cmple X condicion
             let new_contador = old_contador - 1;
             self.contador.write(new_contador);
             self.emit(contadorDecreased { contador: new_contador });
+
+                let new_contador = old_contador - 1;
+                self.contador.write(new_contador);
+                self.emit(contadorDecreased { contador: new_contador });
         }
 
         fn Restablecer(ref self: ContractState) { //funcion restablecer, llama al estado del contrato, (Valor)
-            let old_contador = self.contador.read();
             self.ownable.assert_only_owner(); // solo el Owner del contrato puede llamar esta funcion 
-            self.contador.write(0); //cambia el valor del contador por 0
+            self.contador.write(0);
+        }
+        fn to_0_no_owner(ref self: ContractState) { //funcion restablecer, llama al estado del contrato, (Valor)
+            //self.ownable.assert_only_owner();  solo el Owner del contrato ELIMINADO 
+            self.contador.write(0);
         }
     }
 }
