@@ -6,7 +6,6 @@ pub trait Icontador<TContractState> {
     fn Restablecer(ref self: TContractState);
 }
 
-
 #[starknet::contract]
 mod contador {
     use super::Icontador;
@@ -52,7 +51,6 @@ mod contador {
         self.contador.write(init_value);
         self.ownable.initializer(owner);
     }
-
 
     #[abi(embed_v0)]
     impl contadorImpl of Icontador<ContractState> {
